@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUAN Information Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #e07030;
+  --orange-light: #f5a04a;
+  --orange-pale: #fdf0e8;
+  --orange-tag-bg: #fde9d4;
+  --orange-tag-text: #c05a18;
+  --dark: #111827;
+  --mid: #6b7280;
+  --bg: #f9f5f2;
+  --white: #ffffff;
+  --border: #e5e7eb;
+  --radius: 12px;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); overflow-x: hidden; line-height: 1.6; }
+
+/* NAV */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 72px;
+}
+.nav-brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+.nav-brand img { height:44px; }
+.nav-brand-text { font-weight:700; font-size:1rem; color:var(--dark); }
+.nav-links { display:flex; align-items:center; gap:2px; }
+.nav-links a { font-size:0.84rem; font-weight:500; color:#374151; text-decoration:none; padding:6px 11px; border-radius:7px; transition:background 0.15s; }
+.nav-links a:hover { background:#f3f4f6; }
+.nav-links a.active { color:var(--orange); }
+.hamburger { display:none; background:none; border:none; cursor:pointer; font-size:1.5rem; color:var(--dark); }
+.mobile-nav { display:none; position:fixed; top:72px; left:0; right:0; z-index:999; background:#fff; border-bottom:1px solid var(--border); padding:1rem; flex-direction:column; gap:4px; }
+.mobile-nav.open { display:flex; }
+.mobile-nav a { font-size:0.9rem; font-weight:500; color:var(--dark); text-decoration:none; padding:10px 14px; border-radius:8px; }
+.mobile-nav a:hover { background:#f3f4f6; }
+
+/* HERO */
+.hero {
+  margin-top:72px; min-height:calc(100vh - 72px);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.58) 55%, rgba(0,0,0,0.75) 100%),
+    url('https://static.africa-press.net/botswana/sites/38/2025/03/sm_1742225172.498067.jpg') center/cover no-repeat;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding: 0 3rem 5.5rem;
+}
+.hero-logos { display:flex; align-items:center; gap:16px; margin-bottom:2.5rem; }
+.hero-logo-box { background:#fff; border-radius:10px; padding:10px 14px; display:flex; align-items:center; }
+.hero-logo-box img { height:48px; display:block; }
+.hero-x { color:rgba(255,255,255,0.55); font-size:1.1rem; }
+.hero-dsp-logo { width:64px; height:64px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; border:3px solid var(--orange); }
+.hero-dsp-logo img { width:100%; height:100%; object-fit:cover; }
+.hero h1 { font-size:clamp(2.6rem,6vw,4.5rem); font-weight:900; color:#fff; line-height:1.05; letter-spacing:-1px; margin-bottom:1.25rem; }
+.hero h1 span { color:var(--orange); }
+.hero p { font-size:1.05rem; color:rgba(255,255,255,0.8); max-width:520px; line-height:1.75; margin-bottom:2.5rem; }
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+.btn-primary { background:var(--orange); color:#fff; font-weight:700; font-size:0.92rem; padding:13px 26px; border-radius:40px; border:none; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; transition:background 0.2s; }
+.btn-primary:hover { background:#c55e22; }
+.btn-ghost { background:rgba(255,255,255,0.15); color:#fff; font-weight:600; font-size:0.92rem; padding:13px 26px; border-radius:40px; border:1.5px solid rgba(255,255,255,0.4); cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; backdrop-filter:blur(8px); transition:background 0.2s; }
+.btn-ghost:hover { background:rgba(255,255,255,0.26); }
+
+/* EXPLORE */
+.explore-top { background:#fff; text-align:center; padding:3rem 2rem 0; }
+.label-pill { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--orange-tag-text); background:var(--orange-tag-bg); padding:5px 14px; border-radius:20px; margin-bottom:1.25rem; }
+.label-pill.center { display:block; text-align:center; }
+.explore-title { font-size:clamp(1.8rem,4vw,2.6rem); font-weight:800; color:var(--dark); letter-spacing:-0.5px; margin-bottom:3rem; }
+.hub-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; max-width:1200px; margin:0 auto; padding:0 2rem 4.5rem; background:#fff; }
+.hub-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; text-decoration:none; display:block; transition:box-shadow 0.2s,border-color 0.2s; }
+.hub-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.08); border-color:#d1d5db; }
+.hub-icon { width:44px; height:44px; border-radius:10px; background:var(--orange-pale); display:flex; align-items:center; justify-content:center; font-size:1.35rem; margin-bottom:1.1rem; }
+.hub-card h3 { font-size:0.93rem; font-weight:700; color:var(--dark); margin-bottom:0.3rem; }
+.hub-card p { font-size:0.82rem; color:var(--mid); line-height:1.55; }
+
+/* SECTION */
+.sec { padding:5rem 2rem; }
+.sec-inner { max-width:1200px; margin:0 auto; }
+.sec-white { background:#fff; }
+.sec-bg { background:var(--bg); }
+.sec-title { font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:800; color:var(--dark); letter-spacing:-0.5px; margin-bottom:0.5rem; }
+.sec-title.center { text-align:center; }
+.sec-title span { color:var(--orange); }
+.sec-sub { font-size:0.92rem; color:var(--mid); text-align:center; margin-bottom:2.5rem; }
+.tag { display:inline-block; font-size:0.68rem; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; color:var(--orange-tag-text); background:var(--orange-tag-bg); padding:4px 10px; border-radius:20px; margin-bottom:0.75rem; }
+
+/* CARDS */
+.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
+.card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; transition:box-shadow 0.2s; }
+.card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.07); }
+.card h3 { font-size:0.95rem; font-weight:700; color:var(--dark); margin-bottom:0.5rem; }
+.card p, .card li { font-size:0.875rem; color:var(--mid); line-height:1.65; }
+.card ul { padding-left:1.1rem; }
+.card ul li { margin-bottom:4px; }
+.card a { color:var(--orange); font-size:0.84rem; font-weight:600; text-decoration:none; display:block; margin-top:6px; }
+.card a:hover { text-decoration:underline; }
+.card-red { background:#fff5f5; border-color:#fecaca; }
+.card-red h3 { color:#b91c1c; }
+
+/* BANNER IMAGE */
+.banner-img { width:100%; height:300px; object-fit:cover; border-radius:var(--radius); display:block; margin-bottom:2rem; }
+
+/* DSP */
+.dsp-2col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+.pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:2rem; }
+.pillar { background:#fff; border:1.5px solid var(--orange); border-radius:var(--radius); padding:1.25rem; }
+.pillar h4 { font-size:0.88rem; font-weight:700; color:var(--orange); margin-bottom:0.45rem; }
+.pillar p { font-size:0.8rem; color:var(--mid); line-height:1.6; }
+.cand-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+.cand-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.cand-photo { height:250px; display:flex; align-items:center; justify-content:center; font-size:4.5rem; }
+.cand-body { padding:1.25rem; }
+.cand-name { font-size:1rem; font-weight:700; color:var(--dark); margin-bottom:0.75rem; }
+.cand-points { list-style:disc; padding-left:1rem; }
+.cand-points li { font-size:0.83rem; color:var(--mid); margin-bottom:5px; line-height:1.5; }
+.dsp-banner { background:linear-gradient(90deg,var(--orange),#f5a04a); border-radius:var(--radius); padding:2rem 2.5rem; display:flex; align-items:center; justify-content:space-between; margin-top:3rem; flex-wrap:wrap; gap:1rem; }
+.dsp-banner-l { display:flex; align-items:center; gap:1.2rem; }
+.dsp-banner-logo { width:54px; height:54px; border-radius:50%; background:#fff; overflow:hidden; }
+.dsp-banner-logo img { width:100%; height:100%; object-fit:cover; }
+.dsp-banner h3 { font-size:1rem; font-weight:800; color:#fff; }
+.dsp-banner p { font-size:0.84rem; color:rgba(255,255,255,0.85); }
+.btn-white { background:#fff; color:var(--orange); font-weight:700; font-size:0.88rem; padding:11px 22px; border-radius:40px; border:2px solid #fff; text-decoration:none; display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+.btn-white:hover { background:#fff3ec; }
+
+/* HOURS */
+.hours { background:var(--orange); color:#fff; border-radius:var(--radius); padding:1.25rem 1.5rem; display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center; margin-bottom:2rem; }
+.hours h4 { font-size:0.93rem; font-weight:700; }
+.hours span { font-size:0.84rem; opacity:0.9; }
+
+/* MENU TABS */
+.tab-row { display:flex; gap:8px; margin-bottom:1.75rem; flex-wrap:wrap; }
+.tab { font-size:0.84rem; font-weight:600; padding:8px 17px; border-radius:8px; border:1px solid var(--border); background:#fff; cursor:pointer; color:var(--mid); transition:all 0.15s; }
+.tab.active { background:var(--orange); color:#fff; border-color:var(--orange); }
+.tab-panel { display:none; grid-template-columns:repeat(auto-fill,minmax(175px,1fr)); gap:1rem; }
+.tab-panel.active { display:grid; }
+.mi-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.mi-emoji { height:108px; display:flex; align-items:center; justify-content:center; font-size:2.8rem; }
+.mi-body { padding:0.9rem; }
+.mi-name { font-size:0.87rem; font-weight:700; color:var(--dark); margin-bottom:2px; }
+.mi-price { font-size:0.83rem; font-weight:700; color:var(--orange); }
+.mi-desc { font-size:0.74rem; color:var(--mid); margin-top:3px; line-height:1.5; }
+
+/* REVIEW */
+.review-box { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:2rem; margin-top:2rem; }
+.star-row { display:flex; gap:6px; margin-bottom:1rem; }
+.star { font-size:1.6rem; cursor:pointer; color:#d1d5db; }
+.star.on { color:#f59e0b; }
+.review-list { margin:1rem 0; max-height:220px; overflow-y:auto; display:flex; flex-direction:column; gap:0.75rem; }
+.review-item { background:var(--bg); border-radius:8px; padding:0.9rem 1rem; border-left:3px solid var(--orange); font-size:0.84rem; color:var(--mid); }
+.review-item strong { color:var(--dark); display:block; margin-bottom:2px; font-size:0.8rem; }
+
+/* FORUM */
+.forum-box { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:2rem; margin-top:2rem; }
+.forum-box h3 { font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:0.35rem; }
+.forum-sub { font-size:0.84rem; color:var(--mid); margin-bottom:1.5rem; }
+.flabel { font-size:0.84rem; font-weight:600; color:var(--dark); margin-bottom:6px; display:block; }
+.finput { width:100%; padding:11px 14px; border:1px solid #d1d5db; border-radius:8px; font-family:'Inter',sans-serif; font-size:0.88rem; color:var(--dark); outline:none; margin-bottom:1rem; background:#fff; transition:border-color 0.2s; }
+.finput:focus { border-color:var(--orange); }
+textarea.finput { min-height:110px; resize:vertical; }
+.btn-post { background:var(--orange); color:#fff; font-weight:700; font-size:0.88rem; padding:11px 24px; border-radius:40px; border:none; cursor:pointer; }
+.btn-post:hover { background:#c55e22; }
+.forum-list { margin-top:1.5rem; }
+.forum-item { background:var(--bg); border-radius:8px; padding:0.85rem 1rem; border-left:3px solid var(--orange); margin-bottom:0.75rem; font-size:0.84rem; color:var(--mid); }
+.forum-item strong { color:var(--dark); display:block; font-size:0.8rem; margin-bottom:3px; }
+
+/* BIZ */
+.biz-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; display:flex; gap:1rem; align-items:flex-start; }
+.biz-thumb { width:64px; height:64px; border-radius:10px; flex-shrink:0; background:var(--orange-pale); display:flex; align-items:center; justify-content:center; font-size:2rem; overflow:hidden; }
+.biz-thumb img { width:100%; height:100%; object-fit:cover; }
+.biz-info h4 { font-size:0.9rem; font-weight:700; color:var(--dark); margin-bottom:3px; }
+.biz-info p { font-size:0.82rem; color:var(--mid); margin-bottom:5px; line-height:1.5; }
+.biz-phone { font-size:0.8rem; color:var(--orange); font-weight:600; }
+
+/* QUOTES */
+.quote-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+.q-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; }
+.q-author { display:inline-block; font-size:0.7rem; font-weight:700; text-transform:uppercase; background:var(--orange-tag-bg); color:var(--orange-tag-text); padding:4px 10px; border-radius:20px; margin-bottom:0.9rem; letter-spacing:0.5px; }
+.q-card p { font-size:0.875rem; color:var(--dark); line-height:1.7; font-style:italic; }
+
+/* FLASHCARD */
+.fc-wrap { text-align:center; padding-top:2rem; }
+.fc-wrap h4 { font-size:1rem; font-weight:700; color:var(--dark); margin-bottom:0.35rem; }
+.fc-wrap .fc-sub { font-size:0.84rem; color:var(--mid); margin-bottom:1.75rem; }
+.fc-scene { perspective:1000px; width:480px; height:195px; margin:0 auto 1.5rem; cursor:pointer; }
+.fc-inner { width:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.42s; }
+.fc-inner.flipped { transform:rotateY(180deg); }
+.fc-face { position:absolute; inset:0; border-radius:16px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; padding:2rem 2.5rem; text-align:center; }
+.fc-front { background:linear-gradient(135deg,#e07030,#f5a04a); color:#fff; }
+.fc-back { background:linear-gradient(135deg,#f5a04a,#fbbf24); color:#fff; transform:rotateY(180deg); }
+.fc-q { font-size:1rem; font-weight:700; }
+.fc-a { font-size:0.86rem; line-height:1.7; }
+.fc-controls { display:flex; gap:12px; justify-content:center; margin-bottom:0.75rem; }
+.fc-prev { background:#fff; color:var(--orange); font-weight:700; font-size:0.875rem; padding:10px 22px; border-radius:40px; border:1.5px solid var(--border); cursor:pointer; }
+.fc-next { background:var(--orange); color:#fff; font-weight:700; font-size:0.875rem; padding:10px 22px; border-radius:40px; border:none; cursor:pointer; }
+.fc-count { font-size:0.82rem; color:var(--mid); }
+
+/* DOCS */
+.doc-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; }
+.doc-card h3 { font-size:0.93rem; font-weight:700; color:var(--dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:8px; }
+.doc-card p { font-size:0.82rem; color:var(--mid); margin-bottom:1rem; line-height:1.6; }
+.btn-dl { display:inline-block; font-size:0.82rem; font-weight:700; color:var(--orange); background:transparent; border:1.5px solid var(--orange); padding:8px 18px; border-radius:40px; text-decoration:none; cursor:pointer; transition:all 0.2s; }
+.btn-dl:hover { background:var(--orange); color:#fff; }
+
+/* ── CREATOR SECTION ── */
+.creator-wrap {
+  background: #fff;
+  padding: 4.5rem 2rem;
+}
+.creator-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 3.5rem;
+  align-items: center;
+}
+.creator-photo-col { position: relative; }
+.creator-photo-frame {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(145deg, var(--orange-pale), #fde9d4);
+  border: 3px solid var(--orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7rem;
+  position: relative;
+}
+.creator-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.creator-badge {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--orange);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 40px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(224,112,48,0.35);
+}
+.creator-content { padding-bottom: 1rem; }
+.creator-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.creator-name {
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: -0.75px;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+}
+.creator-name span { color: var(--orange); }
+.creator-role {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--mid);
+  margin-bottom: 1.5rem;
+}
+.creator-bio {
+  font-size: 0.92rem;
+  color: #374151;
+  line-height: 1.8;
+  margin-bottom: 1.75rem;
+  max-width: 560px;
+}
+.creator-stats {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.creator-stat-val {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+}
+.creator-stat-label {
+  font-size: 0.75rem;
+  color: var(--mid);
+  font-weight: 500;
+  margin-top: 3px;
+}
+.creator-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.creator-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.83rem;
+  font-weight: 700;
+  padding: 9px 18px;
+  border-radius: 40px;
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  color: var(--dark);
+  background: #fff;
+  transition: all 0.18s;
+}
+.creator-link:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+.creator-link.primary { background: var(--orange); color: #fff; border-color: var(--orange); }
+.creator-link.primary:hover { background: #c55e22; }
+
+/* ── SCHOLARSHIPS / WEBINARS / SEMINARS ── */
+.opps-tabs { display:flex; gap:10px; margin-bottom:2rem; flex-wrap:wrap; }
+.opp-tab { font-size:0.88rem; font-weight:700; padding:10px 22px; border-radius:40px; border:1.5px solid var(--border); background:#fff; cursor:pointer; color:var(--mid); transition:all 0.15s; }
+.opp-tab.active { background:var(--orange); color:#fff; border-color:var(--orange); }
+.opp-panel { display:none; }
+.opp-panel.active { display:block; }
+
+/* Scholarship cards */
+.sch-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.sch-card {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+  transition:box-shadow 0.2s,border-color 0.2s;
+}
+.sch-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); border-color:#d1d5db; }
+.sch-header { display:flex; align-items:center; gap:12px; }
+.sch-icon { width:46px; height:46px; border-radius:10px; background:var(--orange-pale); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+.sch-name { font-size:0.95rem; font-weight:800; color:var(--dark); line-height:1.3; }
+.sch-org { font-size:0.76rem; color:var(--mid); font-weight:500; }
+.sch-meta { display:flex; gap:8px; flex-wrap:wrap; }
+.sch-pill {
+  font-size:0.68rem; font-weight:700; padding:4px 10px; border-radius:20px; letter-spacing:0.3px;
+}
+.sch-pill.green { background:#d1fae5; color:#065f46; }
+.sch-pill.blue { background:#dbeafe; color:#1e40af; }
+.sch-pill.purple { background:#ede9fe; color:#5b21b6; }
+.sch-pill.red { background:#fee2e2; color:#991b1b; }
+.sch-desc { font-size:0.84rem; color:var(--mid); line-height:1.65; }
+.sch-deadline { font-size:0.78rem; font-weight:700; color:#b45309; background:#fef3c7; padding:5px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:5px; }
+.sch-apply { display:inline-flex; align-items:center; gap:5px; font-size:0.82rem; font-weight:700; color:var(--orange); border:1.5px solid var(--orange); padding:8px 18px; border-radius:40px; text-decoration:none; cursor:pointer; background:transparent; transition:all 0.18s; margin-top:auto; }
+.sch-apply:hover { background:var(--orange); color:#fff; }
+
+/* Webinar cards */
+.web-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.25rem; }
+.web-card {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:box-shadow 0.2s;
+}
+.web-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); }
+.web-thumb {
+  height:130px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:3rem;
+  position:relative;
+}
+.web-thumb.grad-1 { background:linear-gradient(135deg,#e07030,#f5a04a); }
+.web-thumb.grad-2 { background:linear-gradient(135deg,#1d4ed8,#3b82f6); }
+.web-thumb.grad-3 { background:linear-gradient(135deg,#047857,#10b981); }
+.web-thumb.grad-4 { background:linear-gradient(135deg,#7c3aed,#a78bfa); }
+.web-thumb.grad-5 { background:linear-gradient(135deg,#b45309,#fbbf24); }
+.web-thumb.grad-6 { background:linear-gradient(135deg,#be123c,#f43f5e); }
+.web-live { position:absolute; top:10px; right:10px; background:#ef4444; color:#fff; font-size:0.64rem; font-weight:800; padding:4px 9px; border-radius:20px; letter-spacing:0.5px; animation:pulse 1.5s ease-in-out infinite; }
+.web-upcoming { position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.45); color:#fff; font-size:0.64rem; font-weight:700; padding:4px 9px; border-radius:20px; letter-spacing:0.5px; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+.web-body { padding:1.25rem; }
+.web-date { font-size:0.73rem; font-weight:700; color:var(--orange); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem; }
+.web-title { font-size:0.93rem; font-weight:800; color:var(--dark); line-height:1.35; margin-bottom:0.5rem; }
+.web-host { font-size:0.78rem; color:var(--mid); margin-bottom:0.75rem; }
+.web-register { display:inline-flex; align-items:center; gap:5px; font-size:0.8rem; font-weight:700; color:#fff; background:var(--orange); padding:8px 16px; border-radius:40px; text-decoration:none; cursor:pointer; border:none; transition:background 0.18s; }
+.web-register:hover { background:#c55e22; }
+.web-register.outline { background:transparent; color:var(--orange); border:1.5px solid var(--orange); }
+.web-register.outline:hover { background:var(--orange); color:#fff; }
+
+/* Seminar cards */
+.sem-list { display:flex; flex-direction:column; gap:1rem; }
+.sem-card {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:1.5rem 1.75rem;
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  gap:1.5rem;
+  align-items:center;
+  transition:box-shadow 0.2s,border-color 0.2s;
+}
+.sem-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.07); border-color:#d1d5db; }
+.sem-date-box {
+  text-align:center;
+  background:var(--orange-pale);
+  border-radius:12px;
+  padding:0.75rem 0.5rem;
+  border:1.5px solid #f5c8a0;
+}
+.sem-month { font-size:0.65rem; font-weight:800; text-transform:uppercase; color:var(--orange); letter-spacing:1px; }
+.sem-day { font-size:1.8rem; font-weight:900; color:var(--dark); line-height:1; }
+.sem-year { font-size:0.65rem; font-weight:600; color:var(--mid); }
+.sem-info h4 { font-size:0.95rem; font-weight:800; color:var(--dark); margin-bottom:0.3rem; }
+.sem-info p { font-size:0.83rem; color:var(--mid); line-height:1.5; }
+.sem-tags { display:flex; gap:6px; margin-top:0.5rem; flex-wrap:wrap; }
+.sem-tag { font-size:0.68rem; font-weight:700; padding:3px 9px; border-radius:20px; background:#f3f4f6; color:#374151; }
+.sem-tag.orange { background:var(--orange-tag-bg); color:var(--orange-tag-text); }
+.sem-actions { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.sem-loc { font-size:0.75rem; color:var(--mid); text-align:right; }
+.sem-btn { display:inline-flex; align-items:center; font-size:0.8rem; font-weight:700; padding:9px 18px; border-radius:40px; text-decoration:none; cursor:pointer; border:none; white-space:nowrap; }
+.sem-btn.solid { background:var(--orange); color:#fff; transition:background 0.18s; }
+.sem-btn.solid:hover { background:#c55e22; }
+.sem-btn.outline { background:transparent; color:var(--orange); border:1.5px solid var(--orange); transition:all 0.18s; }
+.sem-btn.outline:hover { background:var(--orange); color:#fff; }
+
+/* FOOTER */
+footer { background:#1f2937; color:rgba(255,255,255,0.7); padding:3rem 2rem 2rem; text-align:center; }
+footer h4 { font-size:1rem; font-weight:700; color:#fff; margin-bottom:0.5rem; }
+footer p { font-size:0.84rem; }
+
+/* RESPONSIVE */
+@media(max-width:960px) {
+  .hub-grid { grid-template-columns:repeat(3,1fr); }
+  .grid-4 { grid-template-columns:repeat(2,1fr); }
+  .grid-3 { grid-template-columns:1fr 1fr; }
+  .cand-grid { grid-template-columns:1fr 1fr; }
+  .pillars { grid-template-columns:1fr 1fr; }
+  .dsp-2col { grid-template-columns:1fr; }
+  .quote-grid { grid-template-columns:1fr 1fr; }
+  .creator-inner { grid-template-columns:260px 1fr; gap:2.5rem; }
+  .sch-grid { grid-template-columns:1fr 1fr; }
+  .web-grid { grid-template-columns:1fr 1fr; }
+  .sem-card { grid-template-columns:70px 1fr; }
+  .sem-actions { grid-column:2; flex-direction:row; align-items:center; justify-content:flex-start; }
+  .sem-loc { text-align:left; }
+}
+@media(max-width:640px) {
+  nav { padding:0 1rem; }
+  .nav-links { display:none; }
+  .hamburger { display:block; }
+  .hero { padding:0 1.5rem 3.5rem; }
+  .hub-grid { grid-template-columns:1fr 1fr; padding:0 1rem 3rem; }
+  .sec { padding:3.5rem 1rem; }
+  .cand-grid, .grid-4, .grid-3, .grid-2, .quote-grid, .pillars { grid-template-columns:1fr; }
+  .fc-scene { width:90%; }
+  .dsp-banner { flex-direction:column; }
+  .dsp-2col { grid-template-columns:1fr; }
+  .creator-inner { grid-template-columns:1fr; }
+  .creator-photo-frame { max-width:260px; margin:0 auto; }
+  .creator-stats { gap:1.5rem; }
+  .sch-grid { grid-template-columns:1fr; }
+  .web-grid { grid-template-columns:1fr; }
+  .sem-card { grid-template-columns:1fr; gap:1rem; }
+  .sem-date-box { display:flex; align-items:center; gap:8px; width:fit-content; }
+  .sem-actions { flex-direction:row; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">
+    <img src="buan logo.webp" alt="BUAN">
+    <span class="nav-brand-text">BUAN Information Hub</span>
+  </a>
+  <div class="nav-links">
+    <a href="#creator">Creator</a>
+    <a href="#opportunities">Opportunities</a>
+    <a href="#dsp">DSP</a>
+    <a href="#src">SRC</a>
+    <a href="#hostels">Hostels</a>
+    <a href="#cafeteria">Cafeteria</a>
+    <a href="#academics">Academics</a>
+    <a href="#health">Health</a>
+    <a href="#clubs">Clubs</a>
+    <a href="#businesses">Businesses</a>
+    <a href="#survival">Survival</a>
+    <a href="#finance">Finance</a>
+    <a href="#documents">Documents</a>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mob').classList.toggle('open')">☰</button>
+</nav>
+<div class="mobile-nav" id="mob">
+  <a href="#creator" onclick="this.closest('.mobile-nav').classList.remove('open')">Creator</a>
+  <a href="#opportunities" onclick="this.closest('.mobile-nav').classList.remove('open')">Opportunities</a>
+  <a href="#dsp" onclick="this.closest('.mobile-nav').classList.remove('open')">DSP Party</a>
+  <a href="#src" onclick="this.closest('.mobile-nav').classList.remove('open')">SRC Leaders</a>
+  <a href="#hostels" onclick="this.closest('.mobile-nav').classList.remove('open')">Hostels</a>
+  <a href="#cafeteria" onclick="this.closest('.mobile-nav').classList.remove('open')">Cafeteria</a>
+  <a href="#academics" onclick="this.closest('.mobile-nav').classList.remove('open')">Academics</a>
+  <a href="#health" onclick="this.closest('.mobile-nav').classList.remove('open')">Health</a>
+  <a href="#clubs" onclick="this.closest('.mobile-nav').classList.remove('open')">Clubs</a>
+  <a href="#businesses" onclick="this.closest('.mobile-nav').classList.remove('open')">Businesses</a>
+  <a href="#survival" onclick="this.closest('.mobile-nav').classList.remove('open')">Survival</a>
+  <a href="#finance" onclick="this.closest('.mobile-nav').classList.remove('open')">Finance</a>
+  <a href="#documents" onclick="this.closest('.mobile-nav').classList.remove('open')">Documents</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-logos">
+    <div class="hero-logo-box"><img src="/buan logo.webp" alt="BUAN"></div>
+    <span class="hero-x">×</span>
+    <div class="hero-dsp-logo"><img src="dsp logo fb.jpg" alt="DSP"></div>
+  </div>
+  <h1>BUAN <span>Information Hub</span></h1>
+  <p>Everything a Botswana University of Agriculture and Natural Resources student needs — SRC, hostels, cafeteria, clubs, finance and the DSP party — in one open hub.</p>
+  <div class="hero-btns">
+    <a href="#dsp" class="btn-primary">Meet DSP candidates →</a>
+    <a href="#documents" class="btn-ghost">Get documents</a>
+  </div>
+</section>
+
+<!-- EXPLORE -->
+<div class="explore-top">
+  <span class="label-pill">EXPLORE THE HUB</span>
+  <h2 class="explore-title">Find what you need, fast</h2>
+</div>
+<div class="hub-grid">
+  <a class="hub-card" href="#creator"><div class="hub-icon">✍️</div><h3>The Creator</h3><p>Who built this hub &amp; why</p></a>
+  <a class="hub-card" href="#opportunities"><div class="hub-icon">🎓</div><h3>Opportunities</h3><p>Scholarships, webinars &amp; seminars</p></a>
+  <a class="hub-card" href="#dsp"><div class="hub-icon">✨</div><h3>DSP Party</h3><p>Meet our candidates &amp; manifestos</p></a>
+  <a class="hub-card" href="#src"><div class="hub-icon">👥</div><h3>SRC Leaders</h3><p>Who to contact for what</p></a>
+  <a class="hub-card" href="#hostels"><div class="hub-icon">🏠</div><h3>Hostels</h3><p>Compare &amp; report openly</p></a>
+  <a class="hub-card" href="#cafeteria"><div class="hub-icon">🍽️</div><h3>Cafeteria &amp; Tuckshop</h3><p>Menu, hours &amp; reviews</p></a>
+  <a class="hub-card" href="#academics"><div class="hub-icon">📚</div><h3>Academics &amp; Welfare</h3><p>Offices, lecturers, tutors</p></a>
+  <a class="hub-card" href="#health"><div class="hub-icon">❤️</div><h3>Health Services</h3><p>Nurses &amp; emergency contacts</p></a>
+  <a class="hub-card" href="#clubs"><div class="hub-icon">🎯</div><h3>Clubs &amp; Societies</h3><p>Find your people</p></a>
+  <a class="hub-card" href="#businesses"><div class="hub-icon">💼</div><h3>Affiliated Businesses</h3><p>Food subs, loans, more</p></a>
+  <a class="hub-card" href="#survival"><div class="hub-icon">🧭</div><h3>Survive 1st Year</h3><p>Real stories from seniors</p></a>
+  <a class="hub-card" href="#finance"><div class="hub-icon">🐷</div><h3>Finance</h3><p>Manage money + flashcard game</p></a>
+  <a class="hub-card" href="#documents"><div class="hub-icon">📄</div><h3>Documents</h3><p>Constitution, prospectus, budget</p></a>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!--                CREATOR BIO                -->
+<!-- ══════════════════════════════════════════ -->
+<section id="creator" class="creator-wrap">
+  <div class="creator-inner">
+
+    <!-- Photo column -->
+    <div class="creator-photo-col">
+      <div class="creator-photo-frame">
+        <!-- Replace src with your actual photo path, e.g. src="creator.jpg" -->
+        <img src="unityy.jpg" alt="Creator photo"
+             onerror="this.style.display='none';this.parentElement.innerHTML+='👨🏾‍💻'">
+      </div>
+      <div class="creator-badge">🛠️ Built by a BUAN student</div>
+    </div>
+
+    <!-- Bio column -->
+    <div class="creator-content" style="padding-top:1.5rem;">
+      <span class="creator-eyebrow">Meet the creato of the website</span>
+      <h2 class="creator-name">UNITY BONTLE <span>NDIMANDE</span></h2>
+      <p class="creator-role">BSc Biomathematics · Level 300 · BUAN Sebele Campus</p>
+
+      <p class="creator-bio">
+        I built this hub because I spent my first week at BUAN running from office to office trying to find basic
+        information about hostels, the cafeteria menu, SRC contacts — things that should just <em>exist</em> somewhere.
+        They didn't. So I built it.<br><br>
+        This is a student-to-student resource. No admin jargon, no outdated PDFs buried on a university portal —
+        just real information, kept current, for the people who actually need it. If something's wrong or missing,
+        reach out and I'll fix it.
+      </p>
+
+      <div class="creator-stats">
+        <div>
+          <div class="creator-stat-val">13</div>
+          <div class="creator-stat-label">Hub sections</div>
+        </div>
+        <div>
+          <div class="creator-stat-val">14</div>
+          <div class="creator-stat-label">DSP candidates</div>
+        </div>
+        <div>
+          <div class="creator-stat-val">100%</div>
+          <div class="creator-stat-label">Student-built</div>
+        </div>
+        <div>
+          <div class="creator-stat-val">Free</div>
+          <div class="creator-stat-label">Always &amp; forever</div>
+        </div>
+      </div>
+
+      <div class="creator-links">
+        <a href="mailto:creator@example.com" class="creator-link primary">✉️ Email me</a>
+        <a href="https://www.credly.com/users/unity-ndimande/badges#credly" class="creator-link" target="_blank">CYBERSECURIY CERTIFICATION</a>
+        <a href="https://www.linkedin.com/in/unity-ndimande-92a925225/" class="creator-link" target="_blank">🔗 LinkedIn</a>
+        <a href="https://github.com/UnityNdimande" class="creator-link" target="_blank">💻 GitHub</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ -->
+<!--    SCHOLARSHIPS · WEBINARS · SEMINARS      -->
+<!-- ══════════════════════════════════════════ -->
+<section class="sec sec-bg" id="opportunities">
+<div class="sec-inner">
+  <span class="label-pill center">OPPORTUNITIES</span>
+  <h2 class="sec-title center">Scholarships, <span>Webinars &amp; Seminars</span></h2>
+  <p class="sec-sub">Curated opportunities for BUAN students — apply, register and grow.</p>
+
+  <div class="opps-tabs">
+    <button class="opp-tab active" onclick="switchOpp(this,'sch')">🎓 Scholarships</button>
+    <button class="opp-tab" onclick="switchOpp(this,'web')">💻 Webinars</button>
+    <button class="opp-tab" onclick="switchOpp(this,'sem')">🏛️ Seminars</button>
+  </div>
+
+  <!-- ── SCHOLARSHIPS ── -->
+  <div class="opp-panel active" id="opp-sch">
+    <div class="sch-grid">
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">🇧🇼</div>
+          <div><div class="sch-name">Government of Botswana Undergraduate Bursary</div><div class="sch-org">Ministry of Tertiary Education</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill green">Full tuition</span>
+          <span class="sch-pill blue">Accommodation</span>
+          <span class="sch-pill purple">Stipend</span>
+        </div>
+        <p class="sch-desc">Covers full tuition, accommodation and a monthly living allowance for Batswana citizens enrolled in accredited programmes at BUAN. Awarded based on financial need and academic merit.</p>
+        <div class="sch-deadline">⏰ Deadline: 31 August 2025</div>
+        <a class="sch-apply" href="https://www.gov.bw" target="_blank">Apply now →</a>
+      </div>
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">🌍</div>
+          <div><div class="sch-name">African Union Kagiso Scholarship</div><div class="sch-org">African Union Commission</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill green">Full funding</span>
+          <span class="sch-pill red">Competitive</span>
+        </div>
+        <p class="sch-desc">Open to African students studying agriculture, natural resources, environmental science or related fields. Includes research travel allowance and mentorship from AU fellows.</p>
+        <div class="sch-deadline">⏰ Deadline: 15 September 2025</div>
+        <a class="sch-apply" href="https://au.int" target="_blank">Apply now →</a>
+      </div>
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">🌱</div>
+          <div><div class="sch-name">FAO Youth in Agri-Food Systems Award</div><div class="sch-org">Food &amp; Agriculture Organization — UN</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill green">USD $5 000</span>
+          <span class="sch-pill blue">Research grant</span>
+        </div>
+        <p class="sch-desc">Annual award for students aged 18–30 proposing innovative solutions in sustainable food systems. BUAN has had past recipients — speak to the Academic Office for guidance letters.</p>
+        <div class="sch-deadline">⏰ Deadline: 1 October 2025</div>
+        <a class="sch-apply" href="https://fao.org" target="_blank">Apply now →</a>
+      </div>
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">💡</div>
+          <div><div class="sch-name">Absa Bank BW Student Excellence Bursary</div><div class="sch-org">Absa Bank Botswana</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill green">Tuition</span>
+          <span class="sch-pill purple">Internship track</span>
+        </div>
+        <p class="sch-desc">For high-achieving students in business, finance or agricultural economics. Recipients are fast-tracked into Absa's graduate programme and banking internship pipeline.</p>
+        <div class="sch-deadline">⏰ Deadline: Rolling — apply early</div>
+        <a class="sch-apply" href="https://absa.co.bw" target="_blank">Apply now →</a>
+      </div>
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">🔬</div>
+          <div><div class="sch-name">BIUST–BUAN Research Fellowship</div><div class="sch-org">Botswana Int'l University of Science &amp; Technology</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill blue">Partial funding</span>
+          <span class="sch-pill green">Lab access</span>
+        </div>
+        <p class="sch-desc">Joint fellowship for 3rd and 4th year BUAN students to conduct collaborative research projects at BIUST. Covers transport, lab access and a monthly research stipend.</p>
+        <div class="sch-deadline">⏰ Deadline: 30 June 2025</div>
+        <a class="sch-apply" href="https://biust.ac.bw" target="_blank">Apply now →</a>
+      </div>
+
+      <div class="sch-card">
+        <div class="sch-header">
+          <div class="sch-icon">♀️</div>
+          <div><div class="sch-name">Women in STEM Botswana Scholarship</div><div class="sch-org">Botswana Gender Affairs Dept.</div></div>
+        </div>
+        <div class="sch-meta">
+          <span class="sch-pill purple">Female students</span>
+          <span class="sch-pill green">Tuition + laptop</span>
+        </div>
+        <p class="sch-desc">Targeting female students in science, agriculture and technology disciplines. Includes a laptop, full tuition subsidy and participation in a leadership development series.</p>
+        <div class="sch-deadline">⏰ Deadline: 28 July 2025</div>
+        <a class="sch-apply" href="https://gov.bw/gender" target="_blank">Apply now →</a>
+      </div>
+
+    </div>
+
+    <div style="margin-top:1.5rem; background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; display:flex; gap:12px; align-items:flex-start;">
+      <span style="font-size:1.2rem;flex-shrink:0;">💡</span>
+      <p style="font-size:0.83rem;color:#374151;"><strong>Tip:</strong> Always apply through official channels. Free application assistance is available from the SRC Academics Ministry — email <a href="mailto:src.academics@buan.ac.bw" style="color:var(--orange);font-weight:600;">src.academics@buan.ac.bw</a> to book a session.</p>
+    </div>
+  </div>
+
+  <!-- ── WEBINARS ── -->
+  <div class="opp-panel" id="opp-web">
+    <div class="web-grid">
+
+      <div class="web-card">
+        <div class="web-thumb grad-1">
+          🌾
+          <span class="web-upcoming">UPCOMING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 12 May 2025 · 14:00 SAST</div>
+          <div class="web-title">Precision Agriculture in Sub-Saharan Africa</div>
+          <div class="web-host">Hosted by: FAO Southern Africa &amp; BUAN Research Society</div>
+          <button class="web-register" onclick="webReg('Precision Agriculture Webinar')">Register free →</button>
+        </div>
+      </div>
+
+      <div class="web-card">
+        <div class="web-thumb grad-2">
+          💼
+          <span class="web-upcoming">UPCOMING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 20 May 2025 · 10:00 SAST</div>
+          <div class="web-title">How to Write a Winning Scholarship Application</div>
+          <div class="web-host">Hosted by: SRC Academics Ministry × Nextgen Club</div>
+          <button class="web-register" onclick="webReg('Scholarship Writing Webinar')">Register free →</button>
+        </div>
+      </div>
+
+      <div class="web-card">
+        <div class="web-thumb grad-3">
+          🌍
+          <span class="web-upcoming">UPCOMING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 3 June 2025 · 15:00 SAST</div>
+          <div class="web-title">Climate-Smart Farming: What Students Need to Know</div>
+          <div class="web-host">Hosted by: CGIAR &amp; University of Pretoria</div>
+          <button class="web-register" onclick="webReg('Climate-Smart Farming Webinar')">Register free →</button>
+        </div>
+      </div>
+
+      <div class="web-card">
+        <div class="web-thumb grad-4">
+          🧠
+          <span class="web-upcoming">UPCOMING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 10 June 2025 · 11:00 SAST</div>
+          <div class="web-title">Mental Health in University: Coping Strategies That Work</div>
+          <div class="web-host">Hosted by: Botswana Mental Health Association</div>
+          <button class="web-register" onclick="webReg('Mental Health Webinar')">Register free →</button>
+        </div>
+      </div>
+
+      <div class="web-card">
+        <div class="web-thumb grad-5">
+          💰
+          <span class="web-upcoming">UPCOMING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 24 June 2025 · 13:00 SAST</div>
+          <div class="web-title">Building Wealth as a Young African: Finance 101</div>
+          <div class="web-host">Hosted by: Stanbic Bank BW × Nextgen Club BUAN</div>
+          <button class="web-register" onclick="webReg('Finance 101 Webinar')">Register free →</button>
+        </div>
+      </div>
+
+      <div class="web-card">
+        <div class="web-thumb grad-6">
+          🎤
+          <span class="web-upcoming">RECORDING</span>
+        </div>
+        <div class="web-body">
+          <div class="web-date">📅 Recorded — Apr 2025</div>
+          <div class="web-title">Public Speaking &amp; Debate Masterclass with GAYO</div>
+          <div class="web-host">Hosted by: GAYO BUAN · Gorata Kereemang</div>
+          <button class="web-register outline" onclick="webReg('GAYO Recording')">Watch recording →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="webNotice" style="display:none; margin-top:1.25rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:var(--radius); padding:1rem 1.25rem; font-size:0.84rem; color:#065f46;"></div>
+  </div>
+
+  <!-- ── SEMINARS ── -->
+  <div class="opp-panel" id="opp-sem">
+    <div class="sem-list">
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">May</div>
+          <div class="sem-day">16</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>Annual BUAN Research Symposium</h4>
+          <p>Undergraduate and postgraduate students present research findings to a panel of lecturers and industry representatives. Open to all faculties. Lunch provided.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Research</span>
+            <span class="sem-tag">All faculties</span>
+            <span class="sem-tag">Free entry</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 CICE Block, Sebele</span>
+          <a href="#" class="sem-btn solid" onclick="semReg(event,'BUAN Research Symposium')">Register →</a>
+        </div>
+      </div>
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">May</div>
+          <div class="sem-day">22</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>Graduate Career Fair — Industry Meets Campus</h4>
+          <p>20+ employers from agriculture, banking, government and NGOs set up booths on campus. Bring your CV. Dress smart. Internship &amp; grad offers often happen on the day.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Careers</span>
+            <span class="sem-tag">CVs required</span>
+            <span class="sem-tag">Smart dress</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 Lecture Theatre, Sebele</span>
+          <a href="#" class="sem-btn solid" onclick="semReg(event,'Career Fair')">Register →</a>
+        </div>
+      </div>
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">Jun</div>
+          <div class="sem-day">05</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>World Environment Day Seminar — Restoring Our Land</h4>
+          <p>In collaboration with the Ministry of Environment, BUAN hosts its annual environment seminar featuring keynote speakers, panel discussions and a campus clean-up drive afterwards.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Environment</span>
+            <span class="sem-tag">Keynotes</span>
+            <span class="sem-tag">Certificate issued</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 Lecture Theatre + Grounds</span>
+          <a href="#" class="sem-btn solid" onclick="semReg(event,'World Environment Day Seminar')">Register →</a>
+        </div>
+      </div>
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">Jun</div>
+          <div class="sem-day">18</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>Entrepreneurship &amp; Innovation Bootcamp — Nextgen × BUAN</h4>
+          <p>A full-day bootcamp on business ideation, pitching and financial modelling. Teams compete for seed funding of up to P5,000. Registration limited to 60 students.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Entrepreneurship</span>
+            <span class="sem-tag">P5 000 prize</span>
+            <span class="sem-tag">Limited seats</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 CICE Block, Sebele</span>
+          <a href="#" class="sem-btn solid" onclick="semReg(event,'Nextgen Bootcamp')">Register →</a>
+        </div>
+      </div>
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">Jul</div>
+          <div class="sem-day">08</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>Sexual &amp; Reproductive Health Student Seminar</h4>
+          <p>A safe, open conversation facilitated by health professionals on campus. Covers consent, reproductive rights, mental wellness and accessing campus health services. Anonymous Q&amp;A session included.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Health &amp; Wellness</span>
+            <span class="sem-tag">Confidential</span>
+            <span class="sem-tag">All welcome</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 Student Welfare Building</span>
+          <a href="#" class="sem-btn outline" onclick="semReg(event,'Health Seminar')">Register →</a>
+        </div>
+      </div>
+
+      <div class="sem-card">
+        <div class="sem-date-box">
+          <div class="sem-month">Aug</div>
+          <div class="sem-day">14</div>
+          <div class="sem-year">2025</div>
+        </div>
+        <div class="sem-info">
+          <h4>Academic Writing &amp; Research Methodology Workshop</h4>
+          <p>Two-day workshop on literature review, citation (APA 7), avoiding plagiarism and structuring dissertations. Facilitated by BUAN librarians and senior lecturers. Attendance certificate issued.</p>
+          <div class="sem-tags">
+            <span class="sem-tag orange">Academics</span>
+            <span class="sem-tag">2-day workshop</span>
+            <span class="sem-tag">Certificate</span>
+          </div>
+        </div>
+        <div class="sem-actions">
+          <span class="sem-loc">📍 Library Block, Sebele</span>
+          <a href="#" class="sem-btn solid" onclick="semReg(event,'Academic Writing Workshop')">Register →</a>
+        </div>
+      </div>
+
+    </div>
+    <div id="semNotice" style="display:none; margin-top:1.25rem; background:#d1fae5; border:1px solid #6ee7b7; border-radius:var(--radius); padding:1rem 1.25rem; font-size:0.84rem; color:#065f46;"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- DSP -->
+<section class="sec sec-white" id="dsp">
+<div class="sec-inner">
+  <span class="label-pill center">THE PARTY</span>
+  <h2 class="sec-title center">Diplomatic <span>Student Power</span></h2>
+  <p class="sec-sub">Listening. Acting. Delivering — for every BUAN student.</p>
+
+  <div class="dsp-2col">
+    <div class="card">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">About DSP</h3>
+      <p style="margin-bottom:1rem;">DSP was founded by students who believed leadership should answer directly to the student body — not the other way around. We are agriculture students, business students, science students, sports captains and choir members. We are BUAN.</p>
+      <p>Our manifesto rests on transparency, accessibility and delivery. Every motion we run will be published. Every Pula in the SRC budget will be tracked. Every promise will be measured.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.05rem;margin-bottom:1rem;">Past Highlighted Achievements</h3>
+      <ul>
+        <li>Fought for course accreditation.</li>
+        <li>Successful amendment of BUAN Academic ALMNAC for regional alignment</li>
+        <li>Updating of BUAN Simcards from 1GB to 2.5GB.</li>
+        <li>Partnered with other universities for the establishment of the SRC Union.</li>
+        <li>Introduced faculty student engage forums.</li>
+        <li>Fencing of BUAN Campus.</li>
+        <li>Improving the ITS system.</li>
+        <li>Implemented Field Practical training for level 200 students.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pillars">
+    <div class="pillar"><h4>Academic Excellence</h4><p>Great grades, great theoretical application, upskilling.</p></div>
+    <div class="pillar"><h4>Transparency and Accountability</h4><p>Raw issues presented.</p></div>
+    <div class="pillar"><h4>Economic liberation</h4><p>Empowering the students to be more financially free.</p></div>
+    <div class="pillar"><h4>Inclusivity</h4><p>Eliminating barriers</p></div>
+    <div class="pillar"><h4>Student welfare, rights and advocacy</h4><p>Speaking out on behalf of the students.</p></div>
+    <div class="pillar"><h4>Innovation and Research</h4><p>Real ideas, real solutions brought forth by the students, for the people.</p></div>
+  </div>
+
+  <!-- CANDIDATES -->
+  <div style="margin-top:4rem;">
+    <span class="label-pill center">14 CANDIDATES</span>
+    <h2 class="sec-title center" style="margin-bottom:2.5rem;">Meet the team</h2>
+    <div class="cand-grid">
+      <div class="cand-card"><div class="cand-photo"><img src="louis.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">President</span><div class="cand-name">Louis Madibela</div><ul class="cand-points"><li>Monthly town halls to bridge students and management.</li><li>Transparent SRC budgeting published every semester.</li><li>24/7 student support helpline.</li><li>Student emergency hardship fund.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="paulo.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Vice President</span><div class="cand-name">Aobakwe Motlogelwa</div><ul class="cand-points"><li>Cross-faculty forums to amplify minority voices.</li><li>Partnerships between DSP and academic societies.</li><li>Annual student leadership bootcamp.</li><li>Streamline SRC-student communication.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="ray.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Secretary General</span><div class="cand-name">Raymond Seanego</div><ul class="cand-points"><li>Digitize every SRC minute, motion and resolution.</li><li>Weekly written updates to students.</li><li>Independent ombudsman desk for complaints.</li><li>All decisions published within 48 hours.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="sebilo.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Academics</span><div class="cand-name">Boineelo Sebilo</div><ul class="cand-points"><li>Free shared library of past papers and recordings.</li><li>Tutor-matching with stipends for senior tutors.</li><li>Lobby for fairer CA weightings.</li><li>Extended library hours in exam periods.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="nature.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Refectory</span><div class="cand-name">Nature Cheti</div><ul class="cand-points"><li>Weekly menu published with student-voted dishes.</li><li>Strict hygiene audits with visible scores.</li><li>Affordable meal-plan for self-sponsored students.</li><li>Daily vegetarian and dietary alternatives.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="unityy.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Information and Communication</span><div class="cand-name">Unity Ndimande</div><ul class="cand-points"><li>Real BUAN student app with result &amp; event alerts.</li><li>WhatsApp broadcast for quick campus alerts.</li><li>Wi-Fi expansion to all hostels and study lounges.</li><li>Digital student ID system.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="jozi.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Bar &amp; Canteen</span><div class="cand-name">Bright Kakuwa III</div><ul class="cand-points"><li>Extended canteen hours during exam season.</li><li>Healthy &amp; affordable meals under P15.</li><li>Quarterly review of canteen pricing with student reps.</li><li>Non-alcoholic inclusive social events.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="KATLO.jpeg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Entertainment</span><div class="cand-name">Katlo Kebonang</div><ul class="cand-points"><li>Bring back BUAN Cultural Festival, fully student-run.</li><li>Monthly events: open mic, movie nights, e-sports.</li><li>Discounted tickets for academic high-achievers.</li><li>Annual talent show with cash prize.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="mumsy.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Health</span><div class="cand-name">Mumsy Levy</div><ul class="cand-points"><li>24-hour on-call nurse line during exams.</li><li>Free monthly wellness clinics — eye, dental, mental.</li><li>Free menstrual products in every hostel bathroom.</li><li>Ambulance partnership with Princess Marina.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="ellen.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Administrative Secretary</span><div class="cand-name">Ellen Moilwa</div><ul class="cand-points"><li>Online SRC request portal — no queuing.</li><li>Digital student ID for quick verification.</li><li>Transparent budget reporting every semester.</li><li>Annual SRC report card for all students.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="bokanii.jpeg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Finance</span><div class="cand-name">Bokani Makhila</div><ul class="cand-points"><li>Online SRC request portal — no queuing.</li><li>Digital student ID for quick verification.</li><li>Transparent budget reporting every semester.</li><li>Annual SRC report card for all students.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="block.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Sports</span><div class="cand-name">Maatla Ketshabe</div><ul class="cand-points"><li>Inter-faculty sports league with trophies.</li><li>Refurbish the BUAN sports field and equipment.</li><li>Funding to compete in national leagues.</li><li>Add more sports.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="CADO.jpeg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Justice and Security</span><div class="cand-name">Veunja Manupi</div><ul class="cand-points"><li>Inter-faculty sports league with trophies.</li><li>Fight against academic injustice.</li><li>Collaborate with organisations for self defense classes.</li><li>Come up with a Students know your rights plan.</li></ul></div></div>
+      <div class="cand-card"><div class="cand-photo"><img src="tlamelo.jpg" width="300px" height="350px"></div><div class="cand-body"><span class="tag">Minister of Student Welfare</span><div class="cand-name">Tlamelo Babitseng</div><ul class="cand-points"><li>Dedicated counsellor available 5 days a week.</li><li>Digital hardship fund application — 3-day turnaround.</li><li>Campus recycling and sustainability drives.</li><li>Support for accommodation emergencies.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="dsp-banner">
+    <div class="dsp-banner-l">
+      <div class="dsp-banner-logo"><img src="dsp logo fb.jpg" alt="DSP"></div>
+      <div><h3>Diplomatic Student Power</h3><p>Listening. Acting. Delivering.</p></div>
+    </div>
+    <a href="#src" class="btn-white">View full portfolio →</a>
+  </div>
+</div>
+</section>
+
+<!-- SRC -->
+<section class="sec sec-bg" id="src">
+<div class="sec-inner">
+  <span class="label-pill center">SRC</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">SRC Leaders — who to contact for what</h2>
+  <img class="banner-img" src="https://media.licdn.com/dms/image/v2/D5612AQFDdvdpUPINbQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1685895335945?e=2147483647&v=beta&t=2wbi-7_mj8RH0_fRi28f-HgTmiO9XY-DIsVnFClqwwQ" alt="Students">
+  <div class="grid-4">
+    <div class="card"><h3>Tsaone Outule</h3><span class="tag">SRC President</span><p>Overall student representation, escalations</p><a href="mailto:src.president@buan.ac.bw">src.president@buan.ac.bw</a></div>
+    <div class="card"><h3>Gofiwa</h3><span class="tag">SRC Vice President</span><p>Faculty liaison, deputy duties</p><a href="mailto:src.vp@buan.ac.bw">src.vp@buan.ac.bw</a></div>
+    <div class="card"><h3>Kgosi Tladi</h3><span class="tag">Secretary General</span><p>Minutes, official communications</p><a href="mailto:src.sg@buan.ac.bw">src.sg@buan.ac.bw</a></div>
+    <div class="card"><h3>Phenyo Kgole</h3><span class="tag">Finance</span><p>SRC budget, finance reports</p><a href="mailto:src.treasury@buan.ac.bw">src.treasury@buan.ac.bw</a></div>
+    <div class="card"><h3>Raymond Seanego</h3><span class="tag">Min. Academics</span><p>Academic complaints, exam queries</p><a href="mailto:src.academics@buan.ac.bw">src.academics@buan.ac.bw</a></div>
+    <div class="card"><h3>Theo Baakanyang</h3><span class="tag">Min. Student Welfare</span><p>Hardship fund, harassment reports</p><a href="mailto:src.welfare@buan.ac.bw">src.welfare@buan.ac.bw</a></div>
+    <div class="card"><h3>Tlamelo Babitseng</h3><span class="tag">Min. Entertainment</span><p>Campus events, student socials</p><a href="mailto:src.entertainment@buan.ac.bw">src.entertainment@buan.ac.bw</a></div>
+    <div class="card"><h3>Tlamelo Babitseng</h3><span class="tag">Min. Bar and Canteen</span><p>Beverages and snacks</p><a href="mailto:src.entertainment@buan.ac.bw">src.entertainment@buan.ac.bw</a></div>
+    <div class="card"><h3>Tshepang Bopoto</h3><span class="tag">Min. Information and Communication</span><p>Information to the student community of BUAN</p><a href="mailto:src.entertainment@buan.ac.bw">src.entertainment@buan.ac.bw</a></div>
+    <div class="card"><h3>Lefika Botoka</h3><span class="tag">Min. Refectory</span><p>All things Cafeteria</p><a href="mailto:src.entertainment@buan.ac.bw">src.entertainment@buan.ac.bw</a></div>
+    <div class="card"><h3>Puso Makati</h3><span class="tag">Min. Health</span><p>All things student health</p><a href="mailto:src.entertainment@buan.ac.bw">src.entertainment@buan.ac.bw</a></div>
+    <div class="card"><h3>TT</h3><span class="tag">Min. Sports</span><p>Sports leagues, equipment, facilities</p><a href="mailto:src.sports@buan.ac.bw">src.sports@buan.ac.bw</a></div>
+  </div>
+</div>
+</section>
+
+<!-- HOSTELS -->
+<section class="sec sec-white" id="hostels">
+<div class="sec-inner">
+  <span class="label-pill center">RESIDENCE</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Hostels — what they have, what they lack</h2>
+  <img class="banner-img" src="hostels.jpeg" alt="Hostel building">
+  <div class="grid-4" style="margin-bottom:3rem;">
+    <div class="card"><h3>Block 112 — Sebele</h3><p><strong>Includes:</strong> Wi-Fi, hot water, study lounge</p><p style="margin-top:6px;"><strong>Lacks:</strong> Laundry room, Bathrooms, Aesthetically pleasing garden</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Mr T. Motlhabane · +267 77777777</p></div>
+    <div class="card"><h3>Block 113 — Sebele</h3><p><strong>Includes:</strong> Brown bricks, Female block, Near refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> Laundry room, Bathrooms, Aesthetically pleasing garden</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms G. Kani · +267 77777777</p></div>
+    <div class="card"><h3>Block 114 — Sebele</h3><p><strong>Includes:</strong> Brown bricks, Female block, Near refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> Laundry room, Bathrooms, Aesthetically pleasing garden</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Kenny · +267 77777777</p></div>
+    <div class="card"><h3>Block 116 — Sebele</h3><p><strong>Includes:</strong> Yellow Flat, Female and Male block, Near refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> Laundry room, Bathrooms, 3 GYM rooms</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Seeletso · +267 77777777</p></div>
+    <div class="card"><h3>Block 114 — Notwane</h3><p><strong>Includes:</strong> Spacious rooms, balconies</p><p style="margin-top:6px;"><strong>Lacks:</strong> Weak signal on top floor</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Mr D. Kgole · +267 718 100 03</p></div>
+    <div class="card"><h3>Block 121A — Sebele</h3><p><strong>Includes:</strong> Pink flats, Male block, Near Refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> Single rooms, near the library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Kgomo · +267 77777777</p></div>
+    <div class="card"><h3>Block 121B — Sebele</h3><p><strong>Includes:</strong> Pink flats, Male block, Near Refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> Single rooms, near the library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms C. Metso · +267 77777777</p></div>
+    <div class="card"><h3>Block 121C — Sebele</h3><p><strong>Includes:</strong> Pink flats, Female block, Near Refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> No common kitchen, far from library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms Z. Donba · +267 77777777</p></div>
+    <div class="card"><h3>Block 121D — Sebele</h3><p><strong>Includes:</strong> Pink flats, Female block, Near Refectory</p><p style="margin-top:6px;"><strong>Lacks:</strong> No common kitchen, far from library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Sebilo · +267 77777777</p></div>
+    <div class="card"><h3>Green Doors — Sebele</h3><p><strong>Includes:</strong> Old female block</p><p style="margin-top:6px;"><strong>Lacks:</strong> No common kitchen, far from library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Seeletso · +267 77777777</p></div>
+    <div class="card"><h3>Block 134 — Sebele</h3><p><strong>Includes:</strong> Modern feel, Male residency, Near student clinic</p><p style="margin-top:6px;"><strong>Lacks:</strong> Common kitchen, near the library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms K. Zonah · +267 77777777</p></div>
+    <div class="card"><h3>Block 135 — Sebele</h3><p><strong>Includes:</strong> Modern feel, Female residency, Near student clinic</p><p style="margin-top:6px;"><strong>Lacks:</strong> Common kitchen, the library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Seeletso · +267 77777777</p></div>
+    <div class="card"><h3>OSF — Sebele</h3><p><strong>Includes:</strong> Old Female Residency</p><p style="margin-top:6px;"><strong>Lacks:</strong> Near the BUAN Security, far from library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Ms B. Seeletso · +267 77777777</p></div>
+    <div class="card"><h3>OSM — Sebele</h3><p><strong>Includes:</strong> Old Male Residency</p><p style="margin-top:6px;"><strong>Lacks:</strong> Near the BUAN Security, far from library</p><p style="margin-top:6px;font-size:0.79rem;color:var(--mid);">Warden: Dr M. Phetwe · +267 77777777</p></div>
+  </div>
+
+  <div class="forum-box">
+    <h3>Open student forum</h3>
+    <p class="forum-sub">Report issues, share tips, hold management accountable.</p>
+    <label class="flabel">Your name</label>
+    <input class="finput" id="fName" placeholder="e.g. Mpho">
+    <label class="flabel">Hostel</label>
+    <input class="finput" id="fHostel" placeholder="e.g. Block A — Sebele">
+    <label class="flabel">Your message</label>
+    <textarea class="finput" id="fMsg" placeholder="What's happening?"></textarea>
+    <button class="btn-post" onclick="postForum()">Post report</button>
+    <div class="forum-list" id="forumList">
+      <p style="font-size:0.84rem;color:var(--mid);" id="fEmpty">No reports yet — be the first to post.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ACADEMICS -->
+<section class="sec sec-bg" id="academics">
+<div class="sec-inner">
+  <span class="label-pill center">ACADEMICS &amp; WELFARE</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Offices, lecturers, tutors</h2>
+  <img class="banner-img" src="https://images.unsplash.com/photo-1562774053-701939374585?w=1200&q=80" alt="Lecture hall">
+  <div class="grid-3" style="margin-bottom:2.5rem;">
+    <div class="card"><h3>Academic Office</h3><p>Block ***, Ground floor. Mon–Fri 8:00–16:30</p><a href="mailto:academics@buan.ac.bw">academics@buan.ac.bw</a></div>
+    <div class="card"><h3>Welfare Office</h3><p>Student welfare building. For hardship, counselling, accommodation.</p><a href="mailto:welfare@buan.ac.bw">welfare@buan.ac.bw</a></div>
+    <div class="card"><h3>Available Tutors</h3><p>Maths — Tebogo · Stats — Naledi · Animal Sci — Kabelo · Plant Sci — Refilwe</p><p style="margin-top:6px;font-size:0.8rem;">Book via SRC Academics ministry.</p></div>
+  </div>
+  <h4 style="font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;">Lecture theatres &amp; blocks</h4>
+  <div class="grid-4">
+    <div class="card"><h3>Lecture Theatre</h3><p>Near Stores — 400 seats</p></div>
+    <div class="card"><h3>Animal Science Lab</h3><p>Animal Science labs and 3 lecture rooms</p></div>
+    <div class="card"><h3>Engineering block</h3><p>Near workshop</p></div>
+    <div class="card"><h3>CICE Block</h3><p>Behind Lecture theatre — used for workshops and big events</p></div>
+  </div>
+</div>
+</section>
+
+<!-- HEALTH -->
+<section class="sec sec-white" id="health">
+<div class="sec-inner">
+  <span class="label-pill center">HEALTH</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">School nurses &amp; emergency contacts</h2>
+  <img class="banner-img" src="https://www.getfoundquick.com/wp-content/uploads/2017/12/shutterstock_400002673-1.jpg" alt="Nurse smiling" style="object-position:top;">
+  <div class="grid-4">
+    <div class="card"><h3>Nurse Mr. K</h3><span class="tag">Day Clinic</span><p style="margin-top:8px;">📞 +267 77777777</p><p>Mon–Fri, 8:00–17:00</p></div>
+    <div class="card"><h3>Nurse Mrs M</h3><span class="tag">Night On-Call</span><p style="margin-top:8px;">📞 +267 7777777</p><p>17:00–08:00 daily</p></div>
+    <div class="card"><h3>Counsellor Ms Monna</h3><span class="tag">Mental Health</span><p style="margin-top:8px;">📞 +267 7777777</p><p>Mon, Wed, Fri 9:00–13:00</p></div>
+    <div class="card card-red"><h3>🚨 Emergencies</h3><p style="margin-top:8px;"><strong>Campus security:</strong> +267 7777777</p><p style="margin-top:4px;"><strong>Ambulance:</strong> 997</p><p style="margin-top:4px;"><strong>Princess Marina:</strong> +267 395 3999</p></div>
+  </div>
+</div>
+</section>
+
+<!-- CLUBS -->
+<section class="sec sec-bg" id="clubs">
+<div class="sec-inner">
+  <span class="label-pill center">CLUBS</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Clubs &amp; Societies</h2>
+  <img class="banner-img" src="https://www.unitar.my/wp-content/uploads/2022/03/Clubs-and-Societies-2048x1366.jpg" alt="Students in a club">
+  <div class="grid-4">
+    <div class="card"><h3>Agricultural Education Club</h3><span class="tag">Lead: Chomi</span><p style="margin-top:8px;">Tech + agriculture experiments. Wednesdays 4PM, Block A.</p><a href="mailto:agri@buan.ac.bw">agri@buan.ac.bw</a></div>
+    <div class="card"><h3>BUAN Choir</h3><span class="tag">Lead: Kopano</span><p style="margin-top:8px;">Weekly rehearsals, Sunday performances. All voices welcome.</p><a href="mailto:choir@buan.ac.bw">choir@buan.ac.bw</a></div>
+    <div class="card"><h3>GAYO</h3><span class="tag">Lead: Gorata Kereemang</span><p style="margin-top:8px;">Competitive debate, public speaking, national tournaments.</p><a href="mailto:debate@buan.ac.bw">debate@buan.ac.bw</a></div>
+    <div class="card"><h3>BUAN Innovations and Research Society</h3><span class="tag">Lead: Raymond Seanego</span><p style="margin-top:8px;">Sustainability drives, tree planting and conservation.</p><a href="mailto:eco@buan.ac.bw">eco@buan.ac.bw</a></div>
+    <div class="card"><h3>BUAN ECS</h3><span class="tag">Lead: Amogelang</span><p style="margin-top:8px;">Men's and women's football. Training Tue/Thu, campus field.</p><a href="mailto:fc@buan.ac.bw">fc@buan.ac.bw</a></div>
+    <div class="card"><h3>FST Club</h3><span class="tag">Lead: Warona</span><p style="margin-top:8px;">Covers all campus events. Equipment provided to members.</p><a href="mailto:photo@buan.ac.bw">photo@buan.ac.bw</a></div>
+    <div class="card"><h3>Nextgen</h3><span class="tag">Lead: Bokani Makhila</span><p style="margin-top:8px;">Pitch competitions, mentorship, annual Business Expo.</p><a href="mailto:bizclub@buan.ac.bw">bizclub@buan.ac.bw</a></div>
+    <div class="card"><h3>Zion Christian Church Union</h3><span class="tag">Lead: Tshiamo</span><p style="margin-top:8px;">Fellowships and community outreach. Fridays 5PM.</p><a href="mailto:cu@buan.ac.bw">cu@buan.ac.bw</a></div>
+  </div>
+</div>
+</section>
+
+<!-- CAFETERIA -->
+<section class="sec sec-white" id="cafeteria">
+  <img class="banner-img" src="https://offloadmedia.feverup.com/secretchicago.com/wp-content/uploads/2023/03/13045119/small-cheval-cover-1024x597.jpg" alt="Students in a club">
+<div class="sec-inner">
+  <span class="label-pill center">FOOD</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Cafeteria &amp; Tuckshop</h2>
+  <div class="hours"><h4>🕐 Hours</h4><span>🍳 Breakfast: 6:30–8:30AM</span><span>☀️ Lunch: 12:00–2:00PM</span><span>🌙 Dinner: 5:00–7:00PM</span><span>🛒 Tuck Shop: 7AM–10PM daily</span></div>
+  <div class="tab-row">
+    <button class="tab active" onclick="switchTab(this,'b')">🌅 Breakfast</button>
+    <button class="tab" onclick="switchTab(this,'l')">☀️ Lunch</button>
+    <button class="tab" onclick="switchTab(this,'d')">🌙 Dinner</button>
+    <button class="tab" onclick="switchTab(this,'t')">🛒 Tuck Shop</button>
+  </div>
+  <div class="tab-panel active" id="tp-b">
+    <div class="mi-card"><div class="mi-emoji">🥚</div><div class="mi-body"><div class="mi-name">Eggs &amp; Toast</div><div class="mi-price">P12</div><div class="mi-desc">Scrambled or fried with toast</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🥣</div><div class="mi-body"><div class="mi-name">Mabele</div><div class="mi-price">P8</div><div class="mi-desc">Sorghum with sugar and milk</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🥞</div><div class="mi-body"><div class="mi-name">Magwinya</div><div class="mi-price">P15</div><div class="mi-desc">3 pancakes with syrup and butter</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">☕</div><div class="mi-body"><div class="mi-name">Tea + Magwinya</div><div class="mi-price">P10</div><div class="mi-desc">Hot drink with 2 vetkoek and jam</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🧃</div><div class="mi-body"><div class="mi-name">Fruit Juice</div><div class="mi-price">P7</div><div class="mi-desc">Orange, apple or mango</div></div></div>
+  </div>
+  <div class="tab-panel" id="tp-l">
+    <div class="mi-card"><div class="mi-emoji">🍛</div><div class="mi-body"><div class="mi-name">Pap &amp; Stew</div><div class="mi-price">P20</div><div class="mi-desc">Beef/chicken stew and morogo</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍗</div><div class="mi-body"><div class="mi-name">Chicken &amp; Rice</div><div class="mi-price">P25</div><div class="mi-desc">Quarter chicken with gravy</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🫘</div><div class="mi-body"><div class="mi-name">Beans &amp; Samp</div><div class="mi-price">P18</div><div class="mi-desc">Vegetarian-friendly combo</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🐟</div><div class="mi-body"><div class="mi-name">Fish &amp; Chips</div><div class="mi-price">P28</div><div class="mi-desc">Battered fish with tartar</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🥗</div><div class="mi-body"><div class="mi-name">Salad Bar</div><div class="mi-price">P15</div><div class="mi-desc">Build your own salad</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍔</div><div class="mi-body"><div class="mi-name">Burger &amp; Chips</div><div class="mi-price">P30</div><div class="mi-desc">Beef or chicken burger</div></div></div>
+  </div>
+  <div class="tab-panel" id="tp-d">
+    <div class="mi-card"><div class="mi-emoji">🍝</div><div class="mi-body"><div class="mi-name">Spaghetti Bolognese</div><div class="mi-price">P22</div><div class="mi-desc">Beef sauce and garlic bread</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍲</div><div class="mi-body"><div class="mi-name">Seswaa &amp; Pap</div><div class="mi-price">P25</div><div class="mi-desc">Pounded beef — national dish</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍜</div><div class="mi-body"><div class="mi-name">Vegetable Curry</div><div class="mi-price">P20</div><div class="mi-desc">Mild curry with basmati — vegan</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍕</div><div class="mi-body"><div class="mi-name">Pizza Slice</div><div class="mi-price">P18</div><div class="mi-desc">Fridays only</div></div></div>
+  </div>
+  <div class="tab-panel" id="tp-t">
+    <div class="mi-card"><div class="mi-emoji">🧃</div><div class="mi-body"><div class="mi-name">Cold Drinks</div><div class="mi-price">P8–P18</div><div class="mi-desc">Soft drinks, juices, energy drinks</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🍫</div><div class="mi-body"><div class="mi-name">Snacks &amp; Sweets</div><div class="mi-price">P3–P20</div><div class="mi-desc">Chips, chocolates, biscuits</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🥪</div><div class="mi-body"><div class="mi-name">Sandwiches</div><div class="mi-price">P15–P25</div><div class="mi-desc">Chicken, tuna or cheese</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🌭</div><div class="mi-body"><div class="mi-name">Hot Dogs</div><div class="mi-price">P10–P20</div><div class="mi-desc">Quick hot meals all day</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">🖊️</div><div class="mi-body"><div class="mi-name">Stationery</div><div class="mi-price">P2–P35</div><div class="mi-desc">Pens, notebooks, highlighters</div></div></div>
+    <div class="mi-card"><div class="mi-emoji">📱</div><div class="mi-body"><div class="mi-name">Airtime &amp; Data</div><div class="mi-price">P5–P200</div><div class="mi-desc">Orange, BTC, Mascom</div></div></div>
+  </div>
+
+  <div style="margin-top:2.5rem;">
+    <h4 style="font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:1rem;">👨‍🍳 Cafeteria Staff</h4>
+    <div class="grid-4">
+      <div class="card" style="padding:1rem;text-align:center;"><div style="font-size:2rem;margin-bottom:6px;">👨‍🍳</div><div style="font-weight:700;font-size:0.87rem;">Chef Obed Molosiwa</div><div style="font-size:0.77rem;color:var(--mid);">Head Chef</div></div>
+      <div class="card" style="padding:1rem;text-align:center;"><div style="font-size:2rem;margin-bottom:6px;">👩‍🍳</div><div style="font-weight:700;font-size:0.87rem;">Mama Ditsele</div><div style="font-size:0.77rem;color:var(--mid);">Senior Cook</div></div>
+      <div class="card" style="padding:1rem;text-align:center;"><div style="font-size:2rem;margin-bottom:6px;">🧑‍💼</div><div style="font-weight:700;font-size:0.87rem;">Onkutlwile Mhle</div><div style="font-size:0.77rem;color:var(--mid);">Manager</div></div>
+      <div class="card" style="padding:1rem;text-align:center;"><div style="font-size:2rem;margin-bottom:6px;">🛒</div><div style="font-weight:700;font-size:0.87rem;">Tsholo Kgang</div><div style="font-size:0.77rem;color:var(--mid);">Tuck Shop Attendant</div></div>
+    </div>
+  </div>
+
+  <div class="review-box">
+    <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.4rem;">Rate today's food</h3>
+    <p style="font-size:0.83rem;color:var(--mid);margin-bottom:1rem;">Your feedback shapes tomorrow's menu.</p>
+    <div class="star-row" id="stars">
+      <span class="star" onclick="rate(1)">★</span><span class="star" onclick="rate(2)">★</span><span class="star" onclick="rate(3)">★</span><span class="star" onclick="rate(4)">★</span><span class="star" onclick="rate(5)">★</span>
+    </div>
+    <div class="review-list" id="rList">
+      <div class="review-item"><strong>L. Moagi — ⭐⭐⭐⭐</strong>The seswaa today was amazing! Less oil on the chips though.</div>
+      <div class="review-item"><strong>O. Sello — ⭐⭐⭐</strong>Portions have gotten smaller. Bring back the old serving sizes!</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:1rem;">
+      <input class="finput" id="rInput" placeholder="Write your review…" style="margin:0;">
+      <button class="btn-post" onclick="postReview()">Submit</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- BUSINESSES -->
+<section class="sec sec-bg" id="businesses">
+<div class="sec-inner">
+  <span class="label-pill center">AFFILIATED</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Businesses serving BUAN students</h2>
+  <img class="banner-img" src="https://th.bing.com/th/id/R.542a424ffd69a4e99959e626d73973fe?rik=1p6UYOuBEhEbIg&pid=ImgRaw&r=0" alt="Food meal prep">
+  <div class="grid-4" style="margin-bottom:1.5rem;">
+    <div class="biz-card"><div class="biz-thumb">🍱</div><div class="biz-info"><h4>Mama K's Kitchen</h4><p>Weekly food sub — P350</p><div class="biz-phone">📞 +267 71 111 111</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#fff3e0;">💰</div><div class="biz-info"><h4>Quick Loans BW</h4><p>Short-term student loans</p><div class="biz-phone">📞 +267 72 222 222</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#e8f5e9;">📦</div><div class="biz-info"><h4>Campus Couriers</h4><p>Same-day delivery between blocks</p><div class="biz-phone">📞 +267 73 333 333</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#e8f5e9;">🥦</div><div class="biz-info"><h4>Fresh Box</h4><p>Veg &amp; fruit delivery weekly</p><div class="biz-phone">📞 +267 74 444 444</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#fce4ec;">👗</div><div class="biz-info"><h4>Campus Laundry Co.</h4><p>P5/kg, next-day delivery</p><div class="biz-phone">📞 +267 75 555 555</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#e3f2fd;">💊</div><div class="biz-info"><h4>MediRun Pharmacy</h4><p>Medication delivery to hostels</p><div class="biz-phone">📞 +267 76 666 666</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#f3e5f5;">📚</div><div class="biz-info"><h4>TextbookHub BW</h4><p>Buy &amp; sell used textbooks</p><div class="biz-phone">📞 +267 77 777 777</div></div></div>
+    <div class="biz-card"><div class="biz-thumb" style="background:#fff8e1;">🖨️</div><div class="biz-info"><h4>Print &amp; Go</h4><p>P0.30/page, binding available</p><div class="biz-phone">📞 +267 78 888 888</div></div></div>
+  </div>
+  <div style="background:#fff3e8;border-radius:var(--radius);padding:1.2rem 1.5rem;border:1px solid #f5c8a0;display:flex;gap:12px;align-items:flex-start;">
+    <span style="font-size:1.2rem;flex-shrink:0;">⚠️</span>
+    <p style="font-size:0.83rem;color:#7c3a10;"><strong>Loan shark warning:</strong> Only use SRC-registered services. Unregistered lenders charge 30%+ interest. Report unlicensed lenders to SRC immediately.</p>
+  </div>
+</div>
+</section>
+
+<!-- SURVIVAL -->
+<section class="sec sec-white" id="survival">
+<div class="sec-inner">
+  <span class="label-pill center">FIRST YEAR</span>
+  <h2 class="sec-title center" style="margin-bottom:2.5rem;">How to survive — from seniors</h2>
+  <div class="quote-grid" style="margin-bottom:1.25rem;">
+    <div class="q-card"><div class="q-author">Charmaine, 4th year</div><p>"Show up to every lecture in week 1 — that's where you find your study group."</p></div>
+    <div class="q-card"><div class="q-author">Raymond, 3rd year</div><p>"Budget your allowance the day it lands. Treat groceries as non-negotiable."</p></div>
+    <div class="q-card"><div class="q-author">Millicent, 4th year</div><p>"Talk to your lecturers early. They remember the students who ask questions."</p></div>
+    <div class="q-card"><div class="q-author">Unangoni, 3rd yr</div><p>"Join one club — just one. It's where you'll meet your real friends."</p></div>
+  </div>
+  <div class="quote-grid">
+    <div class="q-card"><div class="q-author">Kagiso, 4th year</div><p>"Get your student email working in week 1. Submission portals are unforgiving."</p></div>
+    <div class="q-card"><div class="q-author">Naledi, 3rd yr</div><p>"Use the campus clinic — it's free. Headaches, anxiety, period pain — all welcome."</p></div>
+    <div class="q-card"><div class="q-author">Tiro, Postgrad</div><p>"Review each lecture the same day. 20 minutes beats an all-nighter before exams."</p></div>
+    <div class="q-card"><div class="q-author">Dineo, 2nd year</div><p>"Seven hours of sleep beats four hours of foggy studying. Always."</p></div>
+  </div>
+</div>
+</section>
+
+<!-- FINANCE -->
+<section class="sec sec-bg" id="finance">
+<div class="sec-inner">
+  <span class="label-pill center">MONEY</span>
+  <h2 class="sec-title center" style="margin-bottom:2rem;">Manage your finances</h2>
+  <img class="banner-img" src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=1200&q=80" alt="Finance and money" style="background:var(--orange);">
+  <div class="grid-3" style="margin-bottom:2.5rem;">
+    <div class="card"><h3>Track every Pula</h3><p>Write down every expense for one month. You'll be shocked where the money goes — and ready to fix it.</p></div>
+    <div class="card"><h3>Save first, spend later</h3><p>Move 20% to savings the day your allowance lands. Treat it as a bill, not an option.</p></div>
+    <div class="card"><h3>Avoid loan sharks</h3><p>Interest can hit 30%+. Use the SRC hardship fund first, then registered lenders only.</p></div>
+  </div>
+
+  <div class="fc-wrap">
+    <h4>💡 Financial Literacy Flashcards</h4>
+    <p class="fc-sub">Click the card to flip. 15 cards on budgeting, saving &amp; investing.</p>
+    <div class="fc-scene" onclick="flipCard()">
+      <div class="fc-inner" id="fcInner">
+        <div class="fc-face fc-front"><div class="fc-q" id="fcQ">What does 'budget' mean?</div></div>
+        <div class="fc-face fc-back"><div class="fc-a" id="fcA">A budget is a plan for your money — deciding how much you'll spend on needs, wants and savings before spending a single thebe.</div></div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="fc-prev" onclick="fcPrev()">← Prev</button>
+      <button class="fc-next" onclick="fcNext()">Next →</button>
+    </div>
+    <div class="fc-count">Card <span id="fcN">1</span> of 15</div>
+  </div>
+</div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="sec sec-white" id="documents">
+<div class="sec-inner">
+  <span class="label-pill center">DOCUMENTS</span>
+  <h2 class="sec-title center" style="margin-bottom:2.5rem;">Important downloads</h2>
+  <div class="grid-4">
+    <div class="doc-card"><h3>📄 BUAN Student Constitution</h3><p>Official rules governing student bodies</p><a class="btn-dl" href="ACADEMIC CALENDAR 2025-2026 (FINAL AMENDED) (1).pdf" onclick="dlA(event,'Constitution')">Download</a></div>
+    <div class="doc-card"><h3>📄 Academic Prospectus 2025</h3><p>All programmes, fees, requirements</p><a class="btn-dl" href="#" onclick="dlA(event,'Prospectus')">Download</a></div>
+    <div class="doc-card"><h3>📄 SRC Budget Speech 2025</h3><p>Where every Pula is allocated</p><a class="btn-dl" href="#" onclick="dlA(event,'Budget Speech')">Download</a></div>
+    <div class="doc-card"><h3>📄 Hostel Code of Conduct</h3><p>Rules for residence life</p><a class="btn-dl" href="#" onclick="dlA(event,'Hostel Code')">Download</a></div>
+    <div class="doc-card"><h3>📄 Academic Calendar 2025</h3><p>Key dates: registration, exams, holidays</p><a class="btn-dl" href="#" onclick="dlA(event,'Academic Calendar')">Download</a></div>
+    <div class="doc-card"><h3>📄 Student Health Policy</h3><p>Clinic protocols and student health rights</p><a class="btn-dl" href="#" onclick="dlA(event,'Health Policy')">Download</a></div>
+    <div class="doc-card"><h3>📄 Graduation Requirements</h3><p>Credits, research and procedures</p><a class="btn-dl" href="#" onclick="dlA(event,'Graduation Requirements')">Download</a></div>
+    <div class="doc-card"><h3>📄 SRC Constitution</h3><p>How the SRC is governed and elected</p><a class="btn-dl" href="#" onclick="dlA(event,'SRC Constitution')">Download</a></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <h4>BUAN Information Hub</h4>
+  <p>Built by students, for students. Powered by DSP — Diplomatic Student Power.</p>
+  <p style="margin-top:8px;font-size:0.77rem;opacity:0.45;">© 2026 · Botswana University of Agriculture and Natural Resources</p>
+</footer>
+
+<script>
+// ACTIVE NAV
+window.addEventListener('scroll', () => {
+  let cur = '';
+  document.querySelectorAll('section[id]').forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+});
+
+// MENU TABS (cafeteria)
+function switchTab(btn, t) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tp-' + t).classList.add('active');
+}
+
+// OPPORTUNITIES TABS
+function switchOpp(btn, t) {
+  document.querySelectorAll('.opp-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.opp-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('opp-' + t).classList.add('active');
+}
+
+// WEBINAR REGISTER
+function webReg(name) {
+  const el = document.getElementById('webNotice');
+  el.style.display = 'block';
+  el.innerHTML = '✅ <strong>You\'re registered for: ' + name + '</strong> — A confirmation will be sent to your student email. Add the event to your calendar so you don\'t miss it!';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// SEMINAR REGISTER
+function semReg(e, name) {
+  e.preventDefault();
+  const el = document.getElementById('semNotice');
+  el.style.display = 'block';
+  el.innerHTML = '✅ <strong>Spot reserved for: ' + name + '</strong> — Check your student email for a confirmation and any pre-reading materials.';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// FORUM
+function postForum() {
+  const n=document.getElementById('fName').value.trim(), h=document.getElementById('fHostel').value.trim(), m=document.getElementById('fMsg').value.trim();
+  if(!m) return;
+  const empty = document.getElementById('fEmpty');
+  if(empty) empty.remove();
+  const el=document.createElement('div'); el.className='forum-item';
+  el.innerHTML=`<strong>${n||'Anonymous'} — ${h||'Campus'}</strong>${m}`;
+  document.getElementById('forumList').insertBefore(el, document.getElementById('forumList').firstChild);
+  document.getElementById('fName').value=''; document.getElementById('fHostel').value=''; document.getElementById('fMsg').value='';
+}
+
+// STARS
+let sRating=0;
+function rate(n) { sRating=n; document.querySelectorAll('#stars .star').forEach((s,i)=>s.classList.toggle('on',i<n)); }
+
+// REVIEW
+function postReview() {
+  const inp=document.getElementById('rInput'), t=inp.value.trim(); if(!t) return;
+  const el=document.createElement('div'); el.className='review-item';
+  el.innerHTML=`<strong>You — ${'⭐'.repeat(sRating||3)}</strong>${t}`;
+  document.getElementById('rList').insertBefore(el, document.getElementById('rList').firstChild);
+  inp.value='';
+}
+
+// FLASHCARDS
+const FC = [
+  { q:"What does 'budget' mean?", a:"A budget is a plan for your money — deciding how much you'll spend on needs, wants and savings before spending a single thebe." },
+  { q:"What is the 50/30/20 rule?", a:"50% of income → needs (food, rent, transport). 30% → wants (entertainment, eating out). 20% → savings. A simple framework to start managing money." },
+  { q:"What's the difference between a need and a want?", a:"A NEED is essential to survive and study — food, transport, toiletries. A WANT is desirable but not urgent — takeaways, new clothes, streaming. Budget needs first." },
+  { q:"Why should you track every Pula you spend?", a:"Most students are shocked when they track expenses. Small leaks — airtime, snacks, taxi rides — add up to hundreds per month. Tracking reveals where to cut and save." },
+  { q:"What is an emergency fund?", a:"Money saved only for unexpected costs — medical bills, a broken phone, emergency transport. Aim for at least P300–P500 that you never touch unless it's a real emergency." },
+  { q:"What does 'saving first' mean?", a:"Saving first means moving money to savings the same day your allowance arrives — before buying anything. Treat savings like rent: non-negotiable. Even P50/month builds the habit." },
+  { q:"What is compound interest and why does it matter?", a:"Compound interest is earned on both your deposit AND previous interest. If you save at 18, money grows far faster than starting at 30. Time is a student's biggest financial advantage." },
+  { q:"What is a credit record?", a:"A record of whether you repay debts on time. Loan sharks and unpaid bills damage it. A bad credit record can block you from jobs, loans and mortgages. Start clean while you're a student." },
+  { q:"How do loan sharks work and why are they dangerous?", a:"They offer quick cash but charge illegal interest — sometimes 50% per month. A P500 loan becomes P750 in 30 days. They use intimidation to collect. Use the SRC hardship fund instead." },
+  { q:"What is the SRC hardship fund?", a:"A fund for students in financial difficulty. Apply through the SRC Welfare Minister. It's a grant or interest-free support — not a loan. You don't owe it back with interest." },
+  { q:"What is the difference between saving and investing?", a:"Saving = keeping money safely (bank account, stokvel) for short-term goals. Investing = putting money into assets that grow over time (shares, unit trusts) — with some risk. Save first, invest later." },
+  { q:"What is a Motshelo and how can it help students?", a:"A Motshelo is a savings club where members contribute monthly and take turns receiving the full pot. It builds saving discipline and gives you a lump sum for big expenses." },
+  { q:"What should you do on the day your allowance arrives?", a:"Step 1: Move 20% to savings immediately. Step 2: Pay outstanding fees or debts. Step 3: Set a monthly food and transport budget. Step 4: Only then spend on personal wants." },
+  { q:"What is lifestyle creep and why is it dangerous?", a:"Lifestyle creep is when income rises and spending rises equally — leaving the same nothing in savings. When your allowance increases, keep lifestyle costs flat and save the extra." },
+  { q:"What is a unit trust and should a student invest in one?", a:"A pooled investment fund managed by professionals. In Botswana, BIFM and Stanbic offer them. As a student: save first, build 3 months of expenses saved, then explore low-risk unit trusts." }
+];
+let fcI=0, fcFlipped=false;
+function renderFC(){ document.getElementById('fcQ').textContent=FC[fcI].q; document.getElementById('fcA').textContent=FC[fcI].a; document.getElementById('fcN').textContent=fcI+1; document.getElementById('fcInner').classList.remove('flipped'); fcFlipped=false; }
+function flipCard(){ fcFlipped=!fcFlipped; document.getElementById('fcInner').classList.toggle('flipped',fcFlipped); }
+function fcNext(){ fcI=(fcI+1)%FC.length; renderFC(); }
+function fcPrev(){ fcI=(fcI-1+FC.length)%FC.length; renderFC(); }
+renderFC();
+
+// DOWNLOADS
+function dlA(e,n){ e.preventDefault(); alert('📄 '+n+'\n\nUpload the PDF to a server and update the href to enable downloads.\nContact SRC ICT: ict@buan.ac.bw'); }
+</script>
+</body>
+</html>
